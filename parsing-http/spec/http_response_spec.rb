@@ -23,6 +23,18 @@ Content-Encoding: gzip
     </body>
 </html>}
 
+RESPONSE2 = %{HTTP/1.1 200 OK
+Server: nginx
+Date: Tue, 06 May 2014 02:15:51 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Methods: GET, POST
+
+{"coord":{"lon":-0.13,"lat":51.51},"sys":{"message":0.0346,"country":"GB","sunrise":1399350122,"sunset":1399404728},"base":"cmc stations"}}
+
 describe HttpResponse do
   it "returns a hash of headers" do
     response = HttpResponse.new(RESPONSE1)
@@ -56,6 +68,40 @@ describe HttpResponse do
       <!-- Every time you consider testing a private method, your code is telling you that you haven't allocated responsibilities well.  Are you listening to it? -->
     </body>
 </html>}
+
+    expect(actual).to eq expected
+  end
+
+  it "returns the response code" do
+    response = HttpResponse.new(RESPONSE1)
+    actual = response.status_code
+    expected = 200
+    expect(actual).to eq expected
+  end
+
+  it "returns nil if content type is not json, else nil" do
+    response = HttpResponse.new(RESPONSE1)
+    actual = response.response_json
+    expected = nil
+    expect(actual).to eq expected
+  end
+
+  it "returns ruby hash of body if content type is json" do
+    response = HttpResponse.new(RESPONSE2)
+    actual = response.response_json
+    expected = {
+      "coord" => {
+        "lon" => -0.13,
+        "lat" => 51.51
+      },
+      "sys" => {
+        "message" => 0.0346,
+        "country" => "GB",
+        "sunrise" => 1399350122,
+        "sunset" => 1399404728
+      },
+      "base" => "cmc stations"
+    }
 
     expect(actual).to eq expected
   end
