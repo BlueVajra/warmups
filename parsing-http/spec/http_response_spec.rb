@@ -40,13 +40,13 @@ describe HttpResponse do
     response = HttpResponse.new(RESPONSE1)
     actual = response.headers
     expected = {
-      "Server" => "nginx/1.4.6 (Ubuntu)",
-      "Date" => "Tue, 06 May 2014 02:17:16 GMT",
-      "Content-Type" => "text/html",
-      "Last-Modified" => "Sun, 27 Apr 2014 04:03:41 GMT",
-      "Transfer-Encoding" => "chunked",
-      "Connection" => "keep-alive",
-      "Content-Encoding" => "gzip"
+      :server => "nginx/1.4.6 (Ubuntu)",
+      :date => "Tue, 06 May 2014 02:17:16 GMT",
+      :content_type => "text/html",
+      :last_modified => "Sun, 27 Apr 2014 04:03:41 GMT",
+      :transfer_encoding => "chunked",
+      :connection => "keep-alive",
+      :content_encoding => "gzip"
     }
 
     expect(actual).to eq expected
