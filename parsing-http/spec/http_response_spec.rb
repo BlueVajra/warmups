@@ -105,4 +105,27 @@ describe HttpResponse do
 
     expect(actual).to eq expected
   end
+  it "saves body in temp folder if content type is text" do
+    if File.exist?("./tmp/test.html")
+      File.delete("./tmp/test.html")
+    end
+    response = HttpResponse.new(RESPONSE1)
+    response.response_html
+    actual = File.read(File.new("./tmp/test.html"))
+    expected = %{<!DOCTYPE html>
+          <html lang="en">
+<head><meta charset="utf-8" />
+<meta name="description" content="should i test private methods?" />
+<meta name="keywords" content="test,private,methods,oo,object,oriented,tdd" />
+<title>Should I Test Private Methods?</title>
+    </head>
+<body>
+<div style='font-size: 96px; font-weight: bold; text-align: center; padding-top: 200px; font-family: Verdana, Helvetica, sans-serif'>NO</div>
+      <!-- Every time you consider testing a private method, your code is telling you that you haven't allocated responsibilities well.  Are you listening to it? -->
+    </body>
+</html>\n}
+
+    expect(actual).to eq expected
+
+  end
 end
